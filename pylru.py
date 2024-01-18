@@ -137,7 +137,7 @@ class lrucache(object):
         if not node.empty:
             if self.callback is not None:
                 self.callback(node.key, node.value)
-            del self.table[node.key]
+            self.table.pop(node.key, None)
 
         # Place the new key and value in the node
         node.empty = False
@@ -156,7 +156,7 @@ class lrucache(object):
     def __delitem__(self, key):
         # Lookup the node, remove it from the hash table, and mark it as empty.
         node = self.table[key]
-        del self.table[key]
+        self.table.pop(key, None)
         node.empty = True
 
         # Not strictly necessary.
@@ -213,7 +213,7 @@ class lrucache(object):
         value = node.value
 
         # Remove the key from the hash table and mark the node as empty.
-        del self.table[key]
+        self.table.pop(key, None)
         node.empty = True
 
         # Not strictly necessary.
@@ -296,7 +296,7 @@ class lrucache(object):
             if not node.empty:
                 if self.callback is not None:
                     self.callback(node.key, node.value)
-                del self.table[node.key]
+                self.table.pop(node.key, None)
 
             # Splice the tail node out of the list
             self.head.prev = node.prev
